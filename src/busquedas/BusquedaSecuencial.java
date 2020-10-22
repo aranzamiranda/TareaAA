@@ -24,7 +24,7 @@ public class BusquedaSecuencial {
     
     public int buscar (int[] datos, int x){
         this.tInicio = System.currentTimeMillis();
-        int pos = Busquedas.busquedaLineal(datos, x);
+        int pos = Busquedas.busquedaLineal(datos, x, true);
         this.tFinal = System.currentTimeMillis();
         this.tTotal = this.tFinal - this.tInicio;
         return pos;

@@ -17,8 +17,7 @@ import org.jfree.data.xy.XYSeriesCollection;
  * @author working
  */
 public class Grafica {
-    
-    private JFreeChart grafica;
+   private JFreeChart grafica;
     private XYSeriesCollection series;
     private String ejeX, ejeY,titulo;
 
@@ -43,7 +42,8 @@ public class Grafica {
     
         XYSeries serie = new XYSeries(nombre);
         // agregar cada uno de los datos en la serie 
-        for (int x=0; x < datos.length;x++){
+        for (int x=0; x < datos.length;x++)
+        {
             serie.add(x, datos[x]);
         }
         // agregamos la serie que se generÃ³ 
