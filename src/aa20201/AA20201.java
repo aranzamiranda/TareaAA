@@ -11,7 +11,7 @@ import busquedas.Busquedas;
 import ordenamiento.Burbuja;
 import ordenamiento.BurbujaOpt;
 import ordenamiento.InsertionSort;
-import ordenamiento.MergeSort;
+import ordenamiento.MergeSort; 
 import ordenamiento.QuickSort;
 /**
  *
