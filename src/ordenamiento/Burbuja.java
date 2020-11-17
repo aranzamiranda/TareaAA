@@ -11,7 +11,7 @@ package ordenamiento;
  */
 public class Burbuja {
      
-   
+   //variables para obtener tiempos
     public long tInicio;
     public long tFinal;
     public long tTotal;
@@ -22,18 +22,11 @@ public class Burbuja {
         this.tTotal = 0 ;
     }
   
-    public int[] ordenar(int[] datos, int i){
-        int[] d = null;
+    public void ordenar(int[] datos){
         this.tInicio = System.currentTimeMillis();
-        if(i == 1){
-            d = ordenarDMayor(datos);
-        }
-        else{
-            d = ordenarDMenor(datos);
-        }
+        ordenarDatos(datos);
         this.tFinal = System.currentTimeMillis();
         this.tTotal = this.tFinal - this.tInicio;
-        return d; 
     }
     public long gettFinal() {
         return tFinal;
@@ -78,6 +71,18 @@ public class Burbuja {
             }
         }
        return arr;
+    }
+    private void ordenarDatos(int[] datos) {
+       int aux = 0;
+       for (int i = 0; i<datos.length; i++){
+           for(int j = 0; j<datos.length - 1; j++){
+               if(datos[j] > datos[j+1]){
+                   aux = datos[j];
+                   datos[j] = datos[j+1];
+                   datos[j+1] = aux;
+               }
+           }
+       }
     }
     
 }
