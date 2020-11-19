@@ -61,6 +61,66 @@ public class GeneradorDatos {
         }
         return aux;
     }
+    public static int[] generarArregloIntOrga(int dim, int bound,int clase, boolean mostrarArray)
+    {
+        int[] arreglo = new int[dim];//+1
+        
+        Random ran = new Random();//+1
+        
+        switch (clase)
+        {
+            //Menor a Mayor
+            case 1:
+            {
+                for(int y=0; y < dim; y++)//+1 (+1+2(n))
+                {
+                    arreglo[y] = y;//+1+1(n)
+                }
+                break;
+            }
+            
+            //De mayor a menor
+            case 2:
+            {
+                int cont = dim;//+1
+                for(int y=0; y < dim; y++)//+1 (+1+2(n))
+                {
+                    arreglo[y] = cont;//+1+1(n)
+                    cont--;//+2(n)
+                }
+                break;
+            }
+            
+            //Mitad de Mayor a Menor y otra mitad de Menor a Mayor
+            case 3:
+            {
+                int cont = dim;//+1
+                for(int y=0; y < dim/2; y++)//+1 (+1+2(n))
+                {
+                    arreglo[y] = cont;//+1(n)
+                    cont--;//+2(n)
+                }
+                for(int y=(int)dim/2; y < dim; y++)//+1+1 (+1+2(n))
+                {
+                    arreglo[y] = y;//+1(n)
+                }
+                break;
+            }
+            
+            //Caso aleatorio
+            default:
+            {
+                for(int y=0; y < dim; y++)//+1 (+1+2(n))
+                {
+                    arreglo[y] = ran.nextInt(bound);//+1(n)
+                }
+                break;
+            }
+        }
+        
+        mostrarArray(arreglo,mostrarArray);
+        return arreglo;
+    }
     
     //Medio caso, numeros aleatorios
     public static int[] generarArregloInt(int n, int bound){
@@ -72,5 +132,21 @@ public class GeneradorDatos {
         }
         
        return arreglo;
+    }
+    public static void mostrarArray(int[] aux,boolean mostrarArray)
+    {
+        if(mostrarArray == true)
+        {
+            for(int l =0; l<aux.length; l++)
+            {
+                System.out.print("["+l+"]");
+            }
+            System.out.println();
+            for(int l =0; l<aux.length; l++)
+            {
+                System.out.print("-"+aux[l]+"-");
+            }
+            System.out.println();
+        }
     }
 }
