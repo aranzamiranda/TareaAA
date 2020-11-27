@@ -12,7 +12,7 @@ package TSP;
 public class Ciudad {
     
     private PuntosXY puntos;
-    private String nombreCiudad;
+    private String nombreCiudad; 
     private int id;
 
     public Ciudad(String nombre,PuntosXY puntos,int id) {
