@@ -60,7 +60,7 @@ public class AA20201 {
         
         System.out.println(fTiempo);*/
   Mochila me = new Mochila();
-        me.generarTablas(4);
+        me.generarTablas(4); 
         System.out.println();
 
     }
