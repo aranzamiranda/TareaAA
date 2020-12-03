@@ -14,6 +14,7 @@ import busquedas.Busquedas;
 import fibonacci.CompararMetodos;
 import fibonacci.FibonacciRecursivoDinamico;
 import java.util.Random;
+import mochila.Mochila;
 import ordenamiento.Burbuja;
 import ordenamiento.BurbujaOpt;
 import ordenamiento.InsertionSort;
@@ -41,7 +42,7 @@ public class AA20201 {
                     1
             });
       */ 
- Ciudad ciudadInicial = new Ciudad("A",new PuntosXY(2, 3),0);
+ /*Ciudad ciudadInicial = new Ciudad("A",new PuntosXY(2, 3),0);
 
         Ciudad[] ciudades = new Ciudad[10];
         
@@ -57,7 +58,10 @@ public class AA20201 {
         tsp.recorrerCaminos(ciudadInicial, ciudades,ciudadInicial,0.0);
         long fTiempo = System.currentTimeMillis() - inicio;
         
-        System.out.println(fTiempo);
+        System.out.println(fTiempo);*/
+  Mochila me = new Mochila();
+        me.generarTablas(4);
+        System.out.println();
 
     }
    
