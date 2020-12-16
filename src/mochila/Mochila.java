@@ -17,7 +17,7 @@ import java.awt.Color;
  */
 public class Mochila {
     //Todos los arraylist de los articulos
-    ArrayList<Articulo> articulos;
+    ArrayList<Articulo> articulos;  
     ArrayList<Articulo> articulosPeso;
     ArrayList<Articulo> articulosIndice;
     ArrayList<Articulo> articulosValor;
