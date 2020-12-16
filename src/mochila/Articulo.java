@@ -10,13 +10,11 @@ package mochila;
  * @author chiky
  */
 public class Articulo {
-     int index;
     int peso;
     int valor;
     
-    public Articulo(int index, int peso, int valor) 
+    public Articulo(int i, int peso, int valor) 
     {
-        this.index = index;
         this.peso = peso;
         this.valor = valor;
     }

@@ -6,59 +6,165 @@
 package mochila;
 import java.util.ArrayList;
 import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+import javax.swing.plaf.basic.BasicScrollBarUI;
+import java.awt.Color;
 /**
  *
  * @author chiky
  */
 public class Mochila {
-    ArrayList<Articulo> articulosPropuestos;
-    ArrayList<Articulo> articulosPropuestosPeso;
-    ArrayList<Articulo> articulosPropuestosValor;
+    //Todos los arraylist de los articulos
+    ArrayList<Articulo> articulos;
+    ArrayList<Articulo> articulosPeso;
+    ArrayList<Articulo> articulosIndice;
+    ArrayList<Articulo> articulosValor;
     
     public Mochila() 
     {
-        articulosPropuestos = LeerDatos.tokenizarDataSet();
-        organizarArticulos();
+        articulos = LeerDatos.tokenizarDataSet();
+        organizar();
     }
-    
-    public void agregarArticulos(int tamañoMochila)
+
+    public void addPeso(int tamañoMochila)
     {
-        ArrayList<Articulo> articulosDentro = new ArrayList<>();
-    }
-    
-    public void organizarArticulos()
-    {
-        articulosPropuestosPeso = (ArrayList<Articulo>) articulosPropuestos.clone();
-        articulosPropuestosValor = (ArrayList<Articulo>) articulosPropuestos.clone();
-        
-        quicksortValor(articulosPropuestosValor,0,articulosPropuestosValor.size()-1);
-        quicksortPeso(articulosPropuestosPeso,0,articulosPropuestosPeso.size()-1);
-    }
-    
-    static void quicksortValor(ArrayList<Articulo> arreglo,int primero,int ultimo)
-    {
-        int central,i,j;
-        int pivote;
-        central = (primero + ultimo) / 2;
-        pivote=arreglo.get(central).valor;
-        i=primero;
-        j=ultimo;
-        
+        ArrayList<Articulo> mochila = new ArrayList<>();
+        boolean ult = false;
+        int peso = 0;
+        int valor = 0;
+        int cont = 0;
         do
         {
-          while(arreglo.get(i).valor  < pivote) i++;
-          {
-              while(arreglo.get(j).valor > pivote) j--;
-              {
-                if(i<=j)
+            if((peso + articulosPeso.get(cont).peso) <= tamañoMochila)
+            {
+                while(articulosPeso.get(cont).peso == articulosPeso.get(cont+1).peso)
                 {
+                    if((peso + articulosPeso.get(cont).peso) <= tamañoMochila)
+                    {
+                        mochila.add(articulosPeso.get(cont));
+                        valor = valor + articulosPeso.get(cont).valor;
+                        peso = peso + articulosPeso.get(cont).peso;
+                        cont++;
+                    }
+                }
+            
+                if(articulosIndice.get(peso + articulosPeso.get(cont).peso).valor < valor)
+                {
+                    mochila.add(articulosPeso.get(cont));
+                    peso = peso + articulosPeso.get(cont).peso;
+                    valor = valor + articulosPeso.get(cont).valor;
+                    cont++;
+                }
+                else
+                {
+                    mochila.clear();
+                    mochila.add(articulosIndice.get(peso + articulosPeso.get(cont).peso));
+                    peso = mochila.get(mochila.size()-1).peso;
+                    valor = mochila.get(mochila.size()-1).valor;
+                    cont++;
+                }
+                
+            }
+            else
+            {
+                ult = true;
+            }
+        }
+        while(peso <= tamañoMochila);{
+            while(ult == false);{
+            generarTabla(mochila, "mochila");
+            }
+        }
+    }
+    
+    public void organizar(){
+        articulosIndice = new ArrayList<>();
+        articulosPeso = (ArrayList<Articulo>) articulos.clone();
+        articulosValor = (ArrayList<Articulo>) articulos.clone();
+        
+        quicksortValor(articulosValor,0,articulosValor.size()-1);
+        quicksortPeso(articulosPeso,0,articulosPeso.size()-1);
+        
+        for(int x = 0; x < articulosPeso.get(articulosPeso.size()-1).peso; x++){
+            articulosIndice.add(new Articulo(0, 0, 0));
+        }
+        articulosIndice.add(new Articulo(0, 0, 0));
+        
+        for(int x = 0; x < articulosPeso.size(); x++){
+            if(articulosIndice.get(articulosPeso.get(x).peso).valor < articulosPeso.get(x).valor){
+                articulosIndice.set(articulosPeso.get(x).peso, articulosPeso.get(x));
+            }    
+        }
+    }
+    static void quicksortValor(ArrayList<Articulo> array,int uno,int finale){
+        int medio,i,j, p;
+        medio = (uno + finale) / 2;//en medio
+        p=array.get(medio).valor;
+        i=uno;
+        j=finale;
+        
+        do{
+          while(array.get(i).valor  < p) i++;{
+              while(array.get(j).valor > p) j--;{
+                if(i<=j){
                     Articulo temp;
-                    temp=arreglo.get(i);
-                    arreglo.set(i, arreglo.get(j));
-                    arreglo.set(j, temp);
+                    temp=array.get(i);
+                    array.set(i, array.get(j));
+                    array.set(j, temp);
+                    i++;
+                    j--;
+                } 
+              }
+          }
+        }
+        while(i<=j);{
+            if(uno<j){
+                quicksortValor(array,uno,j); //Proceso con la lista de izquierda
+            }
+            if(i<finale){
+                quicksortValor(array,i,finale); //Proceso con la lista de derecha
+            }
+        }
+    }
+    public void addValor(int sMochila)
+    {
+        ArrayList<Articulo> mochila = new ArrayList<>();
+        int sumPeso = 0;
+        int sumValor = 0;
+        int cont = articulosValor.size()-1;
+        do{
+            if((sumPeso + articulosValor.get(cont).peso) <= sMochila) //Si el peso de los articulos es menor que el tamaño de la mochila
+            {
+                mochila.add(articulosValor.get(cont));
+                sumPeso = sumPeso + articulosValor.get(cont).peso;
+                sumValor = sumValor + articulosValor.get(cont).valor; 
+            }
+            cont--;
+        }
+        while(cont != 0);
+        {
+            generarTabla(mochila, "mochila");
+        }
+    }
+    static void quicksortPeso(ArrayList<Articulo> array,int uno,int finale)
+    {
+        int medio,i,j;
+        int pivote;
+        medio = (uno + finale) / 2;
+        pivote=array.get(medio).peso;
+        i= uno;
+        j= finale;
+        
+        do{
+          while(array.get(i).peso  < pivote) i++;{
+              while(array.get(j).peso > pivote) j--;{
+                if(i<=j){
+                    Articulo temp;
+                    temp=array.get(i);
+                    array.set(i, array.get(j));
+                    array.set(j, temp);
                     i++;
                     j--;
                 } 
@@ -67,113 +173,97 @@ public class Mochila {
         }
         while(i<=j);
         {
-            if(primero<j)
+            if(uno<j)
             {
-                quicksortValor(arreglo,primero,j); /*mismo proceso con sublista izquierda*/
+                quicksortPeso(array,uno,j); /*mismo proceso con sublista izquierda*/
             }
-            if(i<ultimo)
+            if(i<finale)
             {
-                quicksortValor(arreglo,i,ultimo); /*mismo proceso con sublista derecha*/
-            }
-        }
-    }
-    
-    static void quicksortPeso(ArrayList<Articulo> arreglo,int primero,int ultimo)
-    {
-        int central,i,j;
-        int pivote;
-        central = (primero + ultimo) / 2;
-        pivote=arreglo.get(central).peso;
-        i=primero;
-        j=ultimo;
-        
-        do
-        {
-          while(arreglo.get(i).peso  < pivote) i++;
-          {
-              while(arreglo.get(j).peso > pivote) j--;
-              {
-                if(i<=j)
-                {
-                    Articulo temp;
-                    temp=arreglo.get(i);
-                    arreglo.set(i, arreglo.get(j));
-                    arreglo.set(j, temp);
-                    i++;
-                    j--;
-                } 
-              }
-          }
-        }
-        while(i<=j);
-        {
-            if(primero<j)
-            {
-                quicksortPeso(arreglo,primero,j); /*mismo proceso con sublista izquierda*/
-            }
-            if(i<ultimo)
-            {
-                quicksortPeso(arreglo,i,ultimo); /*mismo proceso con sublista derecha*/
+                quicksortPeso(array,i,finale); /*mismo proceso con sublista derecha*/
             }
         }
     }
     
-    public void generarTablas(int tabla)
+    public void tablas(int tabla)
     {
         switch (tabla)
         {
+            case 0:
+            {
+                break;
+            }
             case 1:
             {
-                generarTabla(articulosPropuestos,"articulosPropuestos");
+                generarTabla(articulos,"Articulos propuestos");
                 break;
             }
             case 2:
             {
-                generarTabla(articulosPropuestosPeso,"articulosPropuestosPeso");
+                generarTabla(articulosPeso,"Articulos propuestos por peso");
                 break;
             }
             case 3:
             {
-                generarTabla(articulosPropuestosValor,"articulosPropuestosValor");
+                generarTabla(articulosIndice,"Articulos propuestos indice");
+                break;
+            }
+            case 4:
+            {
+                generarTabla(articulosValor,"Articulos propuestos valor");
                 break;
             }
             default:
             {
-                generarTabla(articulosPropuestos,"articulosPropuestos");
-                generarTabla(articulosPropuestosPeso,"articulosPropuestosPeso");
-                generarTabla(articulosPropuestosValor,"articulosPropuestosValor");
+                generarTabla(articulos,"Articulos propuestos");
+                generarTabla(articulosPeso,"Articulos propuestos por peso");
+                generarTabla(articulosValor,"Articulos propuestos valor");
+                generarTabla(articulosIndice,"Articulos propuestos indice");
                 break;
             }
         }
     }
     
-    public void generarTabla(ArrayList<Articulo> articulos, String metodo)
+    public void generarTabla(ArrayList<Articulo> elementos, String metodo)//Funcion que genera la tabla con los datos
     {
-        String[][] clases = new String[articulos.size()][3];
-        String[] cabezera = new String[3];
+        String[][] clas = new String[elementos.size()][3];
+        String[] head = new String[3];
         
-        for(int x = 0; x < articulos.size(); x++)
+        for(int x = 0; x < elementos.size(); x++)
         {
-            clases[x][0] = String.valueOf(articulos.get(x).index);
-            clases[x][1] = String.valueOf(articulos.get(x).peso);
-            clases[x][2] = String.valueOf(articulos.get(x).valor);
+            clas[x][1] = String.valueOf(elementos.get(x).peso);
+            clas[x][2] = String.valueOf(elementos.get(x).valor);
         }
         
-        DefaultTableModel mod = new DefaultTableModel(clases,cabezera);
+        DefaultTableModel mode = new DefaultTableModel(clas, head);
 
-        JTable tabla = new JTable(mod);
+        JTable tabla = new JTable(mode);
+           
+        JScrollPane window2 = new JScrollPane(tabla);//Para contener los elementos en una barra deslizable
+        window2.setBounds(50,50,300,200);
+        window2.setBackground(Color.DARK_GRAY);
+        
+           
+        JFrame window1 = new JFrame();
+        window1.setLayout(null);
+        window1.setSize(500, 500);
+        window1.setBackground(Color.PINK);
+       window1.setLocationRelativeTo(null);
+        window1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window1.setTitle("Metodo: "+metodo);
 
-        JScrollPane scroll = new JScrollPane(tabla);
-        scroll.setBounds(50,50,400,200);
-
-        JFrame ventana = new JFrame();
-        ventana.setLayout(null);
-        ventana.setSize(500, 500);
-        ventana.setLocationRelativeTo(null);
-        ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        ventana.setTitle("Metodo: "+metodo);
-
-        ventana.add(scroll);
-        ventana.setVisible(true);
+        window1.add(window2);
+        window1.setVisible(true);
+    }
+    
+    public void funcion(int m, int sMochila, int table){
+        switch (m){
+            case 1:{
+                addPeso(sMochila);
+            }
+            case 2:{
+                addValor(sMochila);
+            }
+        }
+      tablas(table);
     }
 }

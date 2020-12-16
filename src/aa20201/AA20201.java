@@ -4,22 +4,22 @@
  * and open the template in the editor.
  */
 package aa20201;
-import TSP.Ciudad;
-import TSP.PuntosXY;
-import TSP.TSPDinamico;
-import aa20201.data.Grafica;
-import busquedas.BusquedaSecuencial;
-import busquedas.GeneradorDatos;
-import busquedas.Busquedas;
-import fibonacci.CompararMetodos;
-import fibonacci.FibonacciRecursivoDinamico;
-import java.util.Random;
+//import TSP.Ciudad;
+//import TSP.PuntosXY;
+//import TSP.TSPDinamico;
+//import aa20201.data.Grafica;
+//import busquedas.BusquedaSecuencial;
+//import busquedas.GeneradorDatos;
+//import busquedas.Busquedas;
+//import fibonacci.CompararMetodos;
+//import fibonacci.FibonacciRecursivoDinamico;
+//import java.util.Random;
+//import ordenamiento.Burbuja;
+//import ordenamiento.BurbujaOpt;
+//import ordenamiento.InsertionSort;
+//import ordenamiento.MergeSort; 
+//import ordenamiento.QuickSort;
 import mochila.Mochila;
-import ordenamiento.Burbuja;
-import ordenamiento.BurbujaOpt;
-import ordenamiento.InsertionSort;
-import ordenamiento.MergeSort; 
-import ordenamiento.QuickSort;
 /**
  *
  * @author chiky
@@ -59,9 +59,9 @@ public class AA20201 {
         long fTiempo = System.currentTimeMillis() - inicio;
         
         System.out.println(fTiempo);*/
-  Mochila me = new Mochila();
-        me.generarTablas(4); 
-        System.out.println();
+        Mochila me = new Mochila();
+        me.addValor(10);
+        me.tablas(4); 
 
     }
    

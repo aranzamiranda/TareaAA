@@ -19,60 +19,49 @@ import javax.swing.JOptionPane;
  */
 public class LeerDatos {
     public static ArrayList<Articulo> tokenizarDataSet(){
-     
-     // conjunto de patrones del data set
-     ArrayList<Articulo> instancias = new ArrayList<>();
-     
-     String texto, aux;
-   
-     LinkedList<String> lista = new LinkedList();
+     ArrayList<Articulo> ins = new ArrayList<>();
+     String text, aux1;
+     LinkedList<String> list = new LinkedList();
         
-        try {
-            //llamamos el metodo que permite cargar la ventana
-            JFileChooser file = new JFileChooser();
-            file.setCurrentDirectory(new File("./"));
-            file.showOpenDialog(file);
+        try {//cargamos la ventada
+            JFileChooser ar = new JFileChooser();
+            ar.setCurrentDirectory(new File("./"));
+            ar.showOpenDialog(ar);
             //abrimos el archivo seleccionado
-            File abre = file.getSelectedFile();
+            File abre = ar.getSelectedFile();
 
-            //recorremos el archivo y lo leemos
             if (abre != null) {
                 FileReader archivos = new FileReader(abre);
-                BufferedReader lee = new BufferedReader(archivos);
+                BufferedReader read = new BufferedReader(archivos);
 
-                while ((aux = lee.readLine()) != null) 
-                {
-                    texto = aux;
-                    lista.add(texto);
+                while ((aux1 = read.readLine()) != null){ //se lee el archivo
+                    text = aux1;
+                    list.add(text);
                 }
-                lee.close();
-                //System.out.println(lista.size());
+                read.close();
 
-                ArrayList<String> lista2 = new ArrayList<>();
+                ArrayList<String> list2 = new ArrayList<>();
                
-                for (int i = 0; i < lista.size(); i++) 
+                for (int i = 0; i < list.size(); i++) //Se recorre el archivo
                 {
-                    StringTokenizer st = new StringTokenizer(lista.get(i), ",");
+                    StringTokenizer st = new StringTokenizer(list.get(i), ",");
 
-                    while (st.hasMoreTokens()) 
+                    while (st.hasMoreTokens()) //Se chequea si hay mas tokens en el array
                     {
-                        lista2.add(st.nextToken());
+                        list2.add(st.nextToken());//Pasa al siguiente
                     }
                     
-                    instancias.add(new Articulo(i,Integer.parseInt(lista2.get(0)),Integer.parseInt(lista2.get(1))));    
-                    lista2.clear();
+                    ins.add(new Articulo(i,Integer.parseInt(list2.get(0)),Integer.parseInt(list2.get(1))));    
+                    list2.clear();
 
                 }
           
             }
         } 
-        catch (IOException ex) 
+        catch (IOException a) 
         {
-            JOptionPane.showMessageDialog(null, ex + ""
-                    + "\nNo se ha encontrado el archivo",
-                    "ADVERTENCIA!!!", JOptionPane.WARNING_MESSAGE);
-            
+            JOptionPane.showMessageDialog(null, a + ""+ "\n no se encontro", "error", JOptionPane.WARNING_MESSAGE);//Si hay un error, abre un panel con mensaje de advertencia
         }
-        return instancias;
+        return ins;
     }
 }
